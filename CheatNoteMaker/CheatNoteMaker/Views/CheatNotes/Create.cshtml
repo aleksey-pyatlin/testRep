@@ -1,0 +1,52 @@
+﻿@model CheatNoteMaker.Models.CheatNotes.CheatNote
+
+@{
+    ViewBag.Title = "Новая шпаргалка";
+}
+@Html.Partial("_BackToCheatNoteList")
+<h2>Новая шпаргалка</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Create", "CheatNotes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Новая шпаргалка</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        @*<div class="editor-label">
+            @Html.Label("Загрузить текстовый файл с вопросами (каждый вопрос должен быть на отдельной строке)")
+        </div>
+        <div class="editor-field">
+            <input type="file" name="file" id="file" />
+        </div>*@
+    </fieldset>
+    <fieldset>
+            <legend>Список вопросов (одна строка - один вопрос, может начинаться с номера)</legend>
+            
+            <div class="editor-field">
+                @Html.Editor("questionsPlainText", "MultilineText", "questionsPlainText")
+            </div>
+        </fieldset>
+    <p>
+        <input type="submit" value="Добавить" />
+    </p>
+}
+@Html.Partial("_BackToCheatNoteList")

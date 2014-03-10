@@ -1,0 +1,49 @@
+﻿@model CheatNoteMaker.Models.CheatNotes.CheatNoteItem
+
+@{
+    ViewBag.Title = "Новый вопрос";
+}
+@Html.Partial("_BackToCheatNoteItemList")
+<h2>
+    @{ Html.RenderAction("CheatNoteInfo", new { cnid = Model.CheatNoteId }); }
+</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Новый вопрос</legend>
+        
+        @Html.HiddenFor(model => model.CheatNoteId)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Position)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Position)
+            @Html.ValidationMessageFor(model => model.Position)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Content)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Content)
+            @Html.ValidationMessageFor(model => model.Content)
+        </div>
+    </fieldset>
+    <p>
+        <input type="submit" value="Добавить" />
+    </p>
+}
+@Html.Partial("_BackToCheatNoteItemList")

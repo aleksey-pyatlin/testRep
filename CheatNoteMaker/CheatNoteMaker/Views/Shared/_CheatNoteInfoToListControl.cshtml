@@ -1,0 +1,6 @@
+﻿@model CheatNoteMaker.Models.CheatNotes.CheatNote
+
+@if (Model != null)
+{
+    @Html.ActionLink(Model.Name, "List", "CheatNoteItems", new { cnid = Model.Id }, null)
+}

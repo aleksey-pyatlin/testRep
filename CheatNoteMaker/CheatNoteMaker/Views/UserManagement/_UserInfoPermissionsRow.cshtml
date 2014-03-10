@@ -1,0 +1,67 @@
+﻿@using CheatNoteMaker.BusinessLogic.Extensions
+@model CheatNoteMaker.Models.Users.UserInfo
+
+<tr>
+    @using (Html.BeginForm("Update", "UserManagement"))
+    {
+        <td>
+            @Html.HiddenFor(modelItem => Model.Id)
+            @Html.HiddenFor(modelItem => Model.UserName)
+            @Html.HiddenFor(modelItem => Model.Permissions.Id)
+            @Html.HiddenFor(modelItem => Model.Permissions.Title)
+            <b>
+                @Html.DisplayFor(modelItem => Model.UserName)
+            </b>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Permissions.Title)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => Model.Permissions.AllowCreateCheatNotes)
+            @*@Html.Boolean("AllowCreateCheatNotes", item.Permissions.AllowCreateCheatNotes)*@
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => Model.Permissions.AllowEditCheatNotes)
+            @*@Html.Boolean("AllowEditCheatNotes", item.Permissions.AllowEditCheatNotes)*@
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => Model.Permissions.AllowDeleteCheatNotes)
+            @*@Html.Boolean("AllowDeleteCheatNotes", item.Permissions.AllowDeleteCheatNotes)*@
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => Model.Permissions.AllowCreateCheatNoteItems)
+            @*@Html.Boolean("AllowCreateCheatNoteItems", item.Permissions.AllowCreateCheatNoteItems)*@
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => Model.Permissions.AllowEditCheatNoteItems)
+            @*@Html.Boolean("AllowEditCheatNoteItems", item.Permissions.AllowEditCheatNoteItems)*@
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => Model.Permissions.AllowDeleteCheatNoteItems)
+            @*@Html.Boolean("AllowDeleteCheatNoteItems", item.Permissions.AllowDeleteCheatNoteItems)*@
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => Model.Permissions.AllowGenerateCheatNoteHtml)
+            @*@Html.Boolean("AllowGenerateCheatNoteHtml", item.Permissions.AllowGenerateCheatNoteHtml)*@
+        </td>
+        <td>
+            @if (ViewBag.CurrentUserId == Model.Id)
+            {
+                @Html.CheckBoxFor(modelItem => Model.Permissions.AllowManageUsers, new { disabled = "true"})
+            }
+            else
+            {
+                @Html.EditorFor(modelItem => Model.Permissions.AllowManageUsers)
+            }
+        </td>
+        <td>
+            <input type="submit" value="Применить" />
+        </td>
+    }
+    @*<td>
+            @using (Html.BeginForm())
+            {
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+            }
+        </td>*@
+</tr>

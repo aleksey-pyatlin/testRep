@@ -1,0 +1,98 @@
+﻿@using CheatNoteMaker.BusinessLogic.Extensions
+@model IEnumerable<CheatNoteMaker.Models.CheatNotes.CheatNoteItem>
+
+@{
+    ViewBag.Title = "Список вопросов";
+}
+
+@Html.Partial("_BackToCheatNoteList")
+<h2>
+    @{ Html.RenderAction("CheatNoteInfo", new { cnid = @Request["cnid"], toDetails = true }); }
+</h2>
+@if (ViewBag.CreatePermitted == true)
+{
+    <p>
+        @Html.ActionLink("Добавить вопрос", "Create", new { cnid = @Request["cnid"] }, new { @class = "great_btn" })
+    </p>
+}
+@if (Model.Any())
+{
+    <table>
+        <tr>
+            <th style="text-align: right; color: #aaaaaa;">
+                .
+            </th>
+            <th>
+                №
+            </th>
+            <th>
+                Текст вопроса
+            </th>
+            <th>
+                Ответ
+            </th>
+            <th>
+                @("true".Equals(this.Request["showDeleted"], StringComparison.InvariantCultureIgnoreCase) ? this.Html.ActionLink("Скрыть удалённые", "List", "CheatNoteItems", new { cnid = @Request["cnid"] }, null) : this.Html.ActionLink("Показать удалённые", "List", "CheatNoteItems", new { cnid = @Request["cnid"], showDeleted = true }, null))
+            </th>
+        </tr>
+        
+        @{ var i = 0;}
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="text-align: right; color: #aaaaaa;">
+                    @Html.Label("IndexNo", (++i).ToString())
+                </td>
+                <td style="text-align: right; @(item.Position != i ? "color: red;" : string.Empty)">
+                    <a id="@item.Position">
+                        @Html.DisplayFor(modelItem => item.Position)
+                    </a>
+                </td>
+                <td>
+                    @if (item.DateDeleted.HasValue)
+                    {
+                        <s>@Html.ActionLink(item.Title, "Details", new { id = item.Id })</s>
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.Title, "Details", new { id = item.Id })
+                    }
+            
+                </td>
+                <td style="text-align: center">
+                    @Html.Boolean("hasContent", !string.IsNullOrWhiteSpace(item.Content))
+                </td>
+                <td>
+                    @if (ViewBag.EditPermitted == true)
+                    {
+                        @Html.ActionLink(string.IsNullOrWhiteSpace(item.Content) ? "Заполнить" : string.Format("Символов: {0}", item.Content.Length), "Edit", new { id = item.Id })
+                    }
+                    else
+                    {
+                        @Html.Label(string.Empty, string.IsNullOrWhiteSpace(item.Content) ? "( пусто )" : string.Format("Символов: {0}", item.Content.Length))
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+        if (ViewBag.CreatePermitted == true)
+        {
+        <p>
+            @Html.ActionLink("Добавить вопрос", "Create", new { cnid = @Request["cnid"] }, new { @class = "great_btn" })
+        </p>
+        }
+    @Html.Partial("_BackToCheatNoteList")
+}
+else
+{
+    if ("true".Equals(this.Request["showDeleted"], StringComparison.InvariantCultureIgnoreCase))
+    {
+        <b>Не-а, удалённых тоже нет. Добавляем!</b>
+    }
+    else
+    {
+        <b>Похоже, в этой шпаргалке ещё не добавлено ни одного вопроса или все удалены.</b>
+        @Html.ActionLink("Показать удалённые", "List", "CheatNoteItems", new { cnid = @Request["cnid"], showDeleted = true }, null)
+    }
+}

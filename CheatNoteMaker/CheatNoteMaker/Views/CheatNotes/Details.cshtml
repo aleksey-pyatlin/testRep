@@ -1,0 +1,63 @@
+﻿@model CheatNoteMaker.Models.CheatNotes.CheatNote
+
+@{
+    ViewBag.Title = "Подробности";
+}
+@Html.Partial("_BackToCheatNoteList")
+<h2>@Html.DisplayFor(model => model.Name)</h2>
+
+@if (ViewBag.GeneratorPermitted)
+{
+    <p>
+        <b>
+            @Html.ActionLink("Генератор HTML файлов", "GenerateHtmlFiles", "CheatNoteHtmlGenerator", new { id = Model.Id }, new { @class = "great_btn" })
+        </b>
+    </p>
+}
+
+<p>
+    <b>
+        @Html.ActionLink("Смотреть список вопросов", "List", "CheatNoteItems", new { cnid = Model.Id }, null)
+    </b>
+</p>
+<fieldset>
+    <legend>Описание</legend>
+    
+    <div class="display-field">
+        @Html.Raw(Html.Encode(Model.Description).Replace("\n", "<br />"))
+    </div>
+</fieldset>
+
+@Html.Partial("_ObjectBaseDetails", Model)
+@if (ViewBag.EditPermitted == true)
+{
+    <p>
+        @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }, new { @class = "great_btn" })    
+    </p>
+}
+@if (ViewBag.DeletePermitted == true)
+{
+    if (Model.DateDeleted.HasValue)
+     {
+         using (Html.BeginForm("Restore", "CheatNotes", FormMethod.Post))
+         {
+             @Html.HiddenFor(model => model.Id)
+
+             <p>
+                 <input type="submit" value="Восстановить шпаргалку" onclick=" return confirmRestore(); " />
+             </p>
+         }
+     }
+     else
+     {
+         using (Html.BeginForm("Delete", "CheatNotes", FormMethod.Post))
+         {
+             @Html.HiddenFor(model => model.Id)
+
+             <p>
+                 <input type="submit" value="Удалить шпаргалку" onclick=" return confirmDelete(); " />
+             </p>
+         }
+     }
+}
+@Html.Partial("_BackToCheatNoteList")

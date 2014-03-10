@@ -1,0 +1,36 @@
+﻿@model CheatNoteMaker.Models.Common.ObjectBase
+<fieldset>
+    <legend>Дополнительно</legend>
+<div class="display-label">Дата создания</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.DateCreated)
+    @if (Model.CreatedBy != null)
+    {
+        @Html.Label(string.Empty, string.Format("({0})", Model.CreatedBy))
+    }
+</div>
+    
+@if (Model.DateModified != Model.DateCreated)
+{
+    <div class="display-label">Дата изменения</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateModified)
+        @if (Model.ModifiedBy != null)
+        {
+            @Html.Label(string.Empty, string.Format("({0})", Model.ModifiedBy))
+        }
+    </div>
+}
+
+@if (Model.DateDeleted.HasValue)
+{
+    <div class="display-label">Дата удаления</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateDeleted)
+        @if (Model.DeletedBy != null)
+        {
+            @Html.Label(string.Empty, string.Format("({0})", Model.DeletedBy))
+        }
+    </div>
+}
+</fieldset>

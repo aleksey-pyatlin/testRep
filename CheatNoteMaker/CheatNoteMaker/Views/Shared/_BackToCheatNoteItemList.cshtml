@@ -1,0 +1,7 @@
+﻿@if (Model != null)
+{
+    <p>
+        @*@Html.ActionLink("<- Назад к списку вопросов", "List", "CheatNoteItems", new { cnid = Model.CheatNoteId }, null)*@
+        <a href="@Url.Action("List", "CheatNoteItems", new { cnid = Model.CheatNoteId })@(ViewBag.CheatNoteItemListPosition == null ? string.Empty : string.Format("#{0}", ViewBag.CheatNoteItemListPosition))">&lt;- Назад к списку вопросов</a>
+    </p>
+}

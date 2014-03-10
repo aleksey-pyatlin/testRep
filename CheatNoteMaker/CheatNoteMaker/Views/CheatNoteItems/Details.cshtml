@@ -1,0 +1,65 @@
+﻿@model CheatNoteMaker.Models.CheatNotes.CheatNoteItem
+
+@{
+    ViewBag.Title = "Вопрос и ответ";
+    
+    if (Model != null)
+    {
+        ViewBag.CheatNoteItemListPosition = Model.Position;
+    }
+}
+
+@Html.Partial("_BackToCheatNoteItemList")
+
+<h2>
+    @{ Html.RenderAction("CheatNoteInfo", new { cnid = Model.CheatNoteId }); }
+</h2>
+<h3>
+    @Html.Label(string.Empty, Model.ToString())
+</h3>
+<fieldset>
+    <legend>Текст ответа</legend>
+    
+    <div class="display-field">
+        @*@Html.Raw(Html.Encode(Model.Content).Replace("\n", "<br />"))*@
+        @Html.Raw(Model.Content)
+    </div>
+</fieldset>
+
+@Html.Partial("_ObjectBaseDetails", Model)
+@if (ViewBag.EditPermitted == true)
+{
+    <p>
+        <b>@Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }, new { @class = "great_btn" })</b>
+    </p>
+}
+@if (ViewBag.DeletePermitted == true)
+{
+    if (Model.DateDeleted.HasValue)
+    {
+        using (Html.BeginForm("Restore", "CheatNoteItems", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.CheatNoteId)
+            @Html.HiddenFor(model => model.Position)
+
+            <p>
+                <input type="submit" value="Восстановить вопрос" onclick=" return confirmRestore(); " />
+            </p>
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("Delete", "CheatNoteItems", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.CheatNoteId)
+            @Html.HiddenFor(model => model.Position)
+
+            <p>
+                <input type="submit" value="Удалить вопрос" onclick=" return confirmDelete(); " />
+            </p>
+        }
+    }
+}
+@Html.Partial("_BackToCheatNoteItemList")

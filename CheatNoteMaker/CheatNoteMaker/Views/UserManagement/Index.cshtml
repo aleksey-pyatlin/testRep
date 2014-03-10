@@ -1,0 +1,53 @@
+﻿@using CheatNoteMaker.BusinessLogic.Extensions
+@using CheatNoteMaker.Models.Users
+@model IEnumerable<CheatNoteMaker.Models.Users.UserInfo>
+
+@{
+    ViewBag.Title = "Управление пользователями";
+}
+
+<h2>Управление пользователями</h2>
+
+@*<p>
+    @Html.ActionLink("Создать права для нового пользователя", "Create", null, new { @class = "great_btn" })
+</p>*@
+<table>
+    <tr>
+        <th>
+            Пользователь
+        </th>
+        <th>
+            Шаблон прав
+        </th>
+        <th>
+            Создание шпаргалок
+        </th>
+        <th>
+            Редактирование шпаргалок
+        </th>
+        <th>
+            Удаление шпаргалок
+        </th>
+        <th>
+            Создание вопросов
+        </th>
+        <th>
+            Редактирование вопросов
+        </th>
+        <th>
+            Удаление вопросов
+        </th>
+        <th>
+            Генерация HTML
+        </th>
+        <th>
+            Управление пользователями
+        </th>
+        <th></th>
+        @*<th></th>*@
+    </tr>
+    @foreach (var item in Model)
+    {
+        <text>@{ Html.RenderPartial("_UserInfoPermissionsRow", item); }</text>
+    }
+</table>
